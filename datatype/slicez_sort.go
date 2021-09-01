@@ -11,15 +11,29 @@ type Person struct {
 	weight int
 }
 
-func main() {
+func sortPerson() {
 
-	persons := make([]Person, 5)
+	persons := []Person{
+		{"Mihalis", 180, 90},
+		{"Bill", 134, 45},
+		{"Marietta", 155, 45},
+		{"Epifanios", 144, 50},
+		{"Athina", 134, 45},
+	}
 
-	persons[0] = Person{"Mihalis", 180, 90}
-	persons[1] = Person{"Bill", 134, 45}
-	persons[2] = Person{"Marietta", 155, 45}
-	persons[3] = Person{"Epifanios", 144, 50}
-	persons[4] = Person{"Athina", 134, 45}
+	asc := func(i, j int) bool {
+		return persons[i].height < persons[j].height
+	}
+
+	dsc := func(i, j int) bool {
+		return persons[i].height > persons[j].height
+	}
+
+	sort.Slice(persons, asc)
+	fmt.Println("<:", persons)
+
+	sort.Slice(persons, dsc)
+	fmt.Println(">:", persons)
 
 	/*
 		persons := make([]Person, 0)
@@ -31,15 +45,10 @@ func main() {
 		persons = append(persons, Person{"Athina", 134, 45})
 	*/
 
-	sort.Slice(persons, func(i, j int) bool {
-		return persons[i].height < persons[j].height
-	})
-	fmt.Println("<:", persons)
+}
 
-	sort.Slice(persons, func(i, j int) bool {
-		return persons[i].height > persons[j].height
-	})
+func main() {
 
-	fmt.Println(">:", persons)
+	sortPerson()
 
 }

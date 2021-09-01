@@ -7,21 +7,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
-	"sort"
-	"strings"
 	"time"
-)
-
-const (
-	_  = iota // ignore first value by assigning to blank identifier
-	KB = 1 << (10 * iota)
-	MB
-	GB
-	TB
-	PB
-	EB
-	ZB
-	YB
 )
 
 var xx = "Hello, world, xx!"
@@ -58,39 +44,6 @@ type Shape interface {
 
 type MultiShape struct {
 	shapes []Shape
-}
-
-type Cat struct {
-	Name string
-	Age  int
-}
-
-type ByName []Cat
-
-func (ps ByName) Swap(i, j int) {
-	ps[i], ps[j] = ps[j], ps[i]
-}
-
-func (ps ByName) Len() int {
-	return len(ps)
-}
-
-func (ps ByName) Less(i, j int) bool {
-	return ps[i].Name < ps[j].Name
-}
-
-type ByAge []Cat
-
-func (ts ByAge) Swap(i, j int) {
-	ts[i], ts[j] = ts[j], ts[i]
-}
-
-func (ts ByAge) Len() int {
-	return len(ts)
-}
-
-func (ts ByAge) Less(i, j int) bool {
-	return ts[i].Age < ts[j].Age
 }
 
 func f() {
@@ -549,26 +502,6 @@ func main() {
 
 	fmt.Println(multiShapeXs.area())
 
-	fmt.Println("--------- strings ----------")
-	fmt.Println(strings.Contains("test", "es"))
-	fmt.Println(strings.Count("test", "t"))
-	fmt.Println(strings.HasPrefix("test", "te"))
-	fmt.Println(strings.HasSuffix("test", "st"))
-	fmt.Println(strings.Index("test8jsdfsf", "d"))
-	fmt.Println(strings.Join([]string{"138", "8743", "3117"}, "-"))
-	fmt.Println(strings.Repeat("8", 3))
-	fmt.Println(strings.Replace("aaaaaaa", "a", "b", 5))
-	fmt.Println(strings.Split("138-0983-3275", "-"))
-	fmt.Println(strings.ToLower("EjsdfTJAJDFAENdkei"))
-	fmt.Println(strings.EqualFold("go", "GO"))
-
-	// byte[] <-> string
-	sArr := []byte("testdfs")
-	sStr := string([]byte{'t', 'e', 's', 't'})
-
-	fmt.Println(sArr)
-	fmt.Println(sStr)
-
 	fmt.Println("--------------------------")
 	errss := errors.New("error message we defined")
 	fmt.Println(errss)
@@ -584,19 +517,6 @@ func main() {
 	for e := sxl.Front(); e != nil; e = e.Next() {
 		fmt.Println(e.Value.(int))
 	}
-
-	// Sort
-	kids := []Cat{
-		{"MaDudu", 6},
-		{"HuangQiangQiang", 4},
-		{"MaDaGui", 9},
-	}
-
-	sort.Sort(ByAge(kids))
-	fmt.Println(kids)
-
-	sort.Sort(ByName(kids))
-	fmt.Println(kids)
 
 	var inputAgain string
 	fmt.Scanln(&inputAgain)
@@ -681,8 +601,6 @@ func main() {
 	fmt.Scanln(&scInput)
 
 	fmt.Println("--------------------------")
-	fileSize := 400000
-	fmt.Printf("%.2fGB\n", fileSize/GB)
 
 	var x1 uint8 = 1<<1 | 1<<5
 	var y1 uint8 = 1<<1 | 1<<2
