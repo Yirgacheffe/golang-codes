@@ -1,4 +1,4 @@
-package mysqlerr
+package main
 
 const (
 	ER_HASHCHK                                                                       = 1000 // OBSOLETE_ER_HASHCHK

@@ -9,23 +9,6 @@ import (
 	"time"
 )
 
-type Info struct {
-	HttpStatus string `json:"-"`
-	Message    string `json:"msg"`
-}
-
-type Response struct {
-	Status       string      `json:"status,omitempty"`
-	Code         int         `json:"code,omitempty"`
-	ErrorDetails string      `json:"error"`
-	Data         interface{} `json:"data,omitempty"`
-}
-
-type ErrorDetails struct {
-	Code        string `json:"error,omitempty"`
-	Description string `json:"description,omitempty"`
-}
-
 var (
 	errNotAuthenticated = errors.New("not authenticated")
 	httpReadTimeout     = 2 * time.Minute
@@ -39,6 +22,16 @@ const (
 	FAIL      = "fail"
 	logModule = "api"
 )
+
+type Info struct {
+	HttpStatus string `json:"-"`
+	Message    string `json:"msg"`
+}
+
+type ErrorDetails struct {
+	Code        string `json:"error,omitempty"`
+	Description string `json:"description,omitempty"`
+}
 
 // Response describes the response standard.
 type Response struct {
@@ -54,12 +47,12 @@ func NewSuccessResponse(data interface{}) Response {
 	return Response{Status: SUCCESS, Data: data}
 }
 
-//FormatErrResp format error response
+var respErrFormatter map[error]Info
+
 func FormatErrResp(err error) (response Response) {
 	response = Response{Status: FAIL}
 	root := errors.Root(err)
-	// Some types cannot be used as map keys, for example slices.
-	// If an error's underlying type is one of these, don't panic.
+.
 	// Just treat it like any other missing entry.
 	defer func() {
 		if err := recover(); err != nil {

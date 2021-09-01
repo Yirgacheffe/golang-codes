@@ -13,6 +13,8 @@ import (
 
 const (
     // Name of the database.
+    // mongodb://{user}:{password}@10.110.73.215:27017
+
     DBName          = "glottery"
     notesCollection = "notes"
     URI             = "mongodb://<user>:<password>@<host>/<name>"
@@ -28,12 +30,19 @@ type Note struct {
 
 func main() {
     // Base context.
-    ctx := context.Background()
+    ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
     clientOpts := options.Client().ApplyURI(URI)
+
     client, err := mongo.Connect(ctx, clientOpts)
     if err != nil {
         fmt.Println(err)
         return
+    }
+
+    defer func() {
+        if err := client.Disconnect(ctx); err != nil {
+            panic(err)
+        }
     }
 
     db := client.Database(DBName)
@@ -49,7 +58,7 @@ func main() {
     note.CreatedAt = time.Now()
     note.UpdatedAt = time.Now()
 
-    result, err := coll.InsertOne(ctx, note)
+    result, err := coll.InsertOne(ctx, note)    // coll.InsertOne(ctx, bson.M{"hello": "world"})
     if err != nil {
         fmt.Println(err)
         return
@@ -88,7 +97,6 @@ func main() {
     fmt.Println(results.InsertedIDs)
 
     // Update a document.
-
     // Parsing a string ID to ObjectID from MongoDB.
     objID, err := primitive.ObjectIDFromHex("5d100d9c23affb7006dd9cff")
     if err != nil {
@@ -125,7 +133,6 @@ func main() {
     fmt.Println(resultDelete.DeletedCount)
 
     // Find documents.
-
     objID, err = primitive.ObjectIDFromHex("5d100d9c23affb7006dd9cff")
     if err != nil {
         fmt.Println(err)
