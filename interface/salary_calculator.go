@@ -30,7 +30,7 @@ func (p Permanent) CalculateSalary() int {
 
 //salary of contract employee is the basic pay alone
 func (c Contract) CalculateSalary() int {
-	return c.basicpay
+	return c.basicPay
 }
 
 //salary of freelancer
@@ -53,17 +53,17 @@ func totalExpense(s []SalaryCalculator) {
 func main() {
 	pemp1 := Permanent{
 		empId:    1,
-		basicpay: 5000,
+		basicPay: 5000,
 		pf:       20,
 	}
 	pemp2 := Permanent{
 		empId:    2,
-		basicpay: 6000,
+		basicPay: 6000,
 		pf:       30,
 	}
 	cemp1 := Contract{
 		empId:    3,
-		basicpay: 3000,
+		basicPay: 3000,
 	}
 	freelancer1 := Freelancer{
 		empId:       4,

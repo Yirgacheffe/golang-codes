@@ -8,6 +8,14 @@ import (
 // export APP_DB_PASSWORD=
 // export APP_DB_NAME=postgres
 
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "<password>"
+	dbname   = "<dbname>"
+)
+
 func main() {
 	a := &App{}
 	a.Initialize(

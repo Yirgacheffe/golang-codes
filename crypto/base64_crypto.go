@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"log"
 )
 
 func base64Encode(src []byte) []byte {
@@ -14,10 +15,8 @@ func base64Decode(src []byte) ([]byte, error) {
 }
 
 func main() {
-
 	hello := "Hello world!"
 	debyte := base64Encode([]byte(hello))
-
 	fmt.Println(debyte)
 
 	endbyte, err := base64Decode(debyte)
@@ -26,9 +25,7 @@ func main() {
 	}
 
 	if hello != string(endbyte) {
-		fmt.Println("decode failed")
+		log.Fatal("Failed!")
 	}
-
 	fmt.Println(string(endbyte))
-
 }
