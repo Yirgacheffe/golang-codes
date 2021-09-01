@@ -11,16 +11,11 @@ type Person struct {
 	weight int
 }
 
+var persons = []Person{
+	{"Mihalis", 180, 90}, {"Bill", 134, 45}, {"Marietta", 155, 45}, {"Epifanios", 144, 50}, {"Athina", 134, 45},
+}
+
 func sortPerson() {
-
-	persons := []Person{
-		{"Mihalis", 180, 90},
-		{"Bill", 134, 45},
-		{"Marietta", 155, 45},
-		{"Epifanios", 144, 50},
-		{"Athina", 134, 45},
-	}
-
 	asc := func(i, j int) bool {
 		return persons[i].height < persons[j].height
 	}
@@ -44,11 +39,8 @@ func sortPerson() {
 		persons = append(persons, Person{"Epifanios", 144, 50})
 		persons = append(persons, Person{"Athina", 134, 45})
 	*/
-
 }
 
 func main() {
-
 	sortPerson()
-
 }

@@ -10,6 +10,7 @@ type Cat struct {
 	Age  int
 }
 
+// ByName
 type ByName []Cat
 
 func (ps ByName) Swap(i, j int) {
@@ -24,6 +25,7 @@ func (ps ByName) Less(i, j int) bool {
 	return ps[i].Name < ps[j].Name
 }
 
+// ByAge
 type ByAge []Cat
 
 func (ts ByAge) Swap(i, j int) {
@@ -39,8 +41,6 @@ func (ts ByAge) Less(i, j int) bool {
 }
 
 func main() {
-
-	// Sort
 	kids := []Cat{
 		{"MaDudu", 6}, {"HuangQiangQiang", 4}, {"MaDaGui", 9},
 	}
@@ -50,5 +50,4 @@ func main() {
 
 	sort.Sort(ByName(kids))
 	fmt.Println(kids)
-
 }
