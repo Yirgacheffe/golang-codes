@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Error:", err)
 	} else {
-		fmt.Println("Successful! %d bytes has been written.\n", n)
+		fmt.Printf("Successful! %d bytes has been written.\n", n)
 	}
 
 	fmt.Printf("File description: %v\n", f.Fd())
@@ -30,7 +30,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Error:", err)
 	} else {
-		fmt.Println("Successful! %d bytes has been written.\n", x)
+		fmt.Printf("Successful! %d bytes has been written.\n", x)
 	}
 
 }
