@@ -26,7 +26,7 @@ func copyFS(src, dst string) {
 
 	} else {
 		srcContent, _ := ioutil.ReadFile(src)
-		dstFilePath := filepath.Join(dst, srcFileStat.Name)
+		dstFilePath := filepath.Join(dst, srcFileStat.Name())
 
 		ioutil.WriteFile(dstFilePath, srcContent, 0777)
 		fmt.Println(dstFilePath, "->", dstFilePath)
