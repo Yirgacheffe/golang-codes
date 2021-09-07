@@ -111,6 +111,7 @@ type Response struct {
 	Temporary bool                   `json:"temporary"`
 }
 
+// Formatter is one of the object of error
 type Formatter struct {
 	Default     Info
 	IsTemporary func(info Info, err error) bool

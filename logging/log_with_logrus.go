@@ -34,4 +34,8 @@ func main() {
 		"number": 100,
 	}).Fatal("The ice breaks!")
 
+	// new instance
+	var logg = log.New()
+	logg.Infoln("A new instance log")
+
 }
