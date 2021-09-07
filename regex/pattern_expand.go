@@ -13,17 +13,11 @@ func main() {
 	`)
 
 	pat := regexp.MustCompile(`(?m)(call)\s+(?P<cmd>\w+)\s+(?P<arg>.+)\s*$`)
-	var res []byte
 
+	var res []byte
 	for _, s := range pat.FindAllSubmatchIndex(src, -1) {
 		res = pat.Expand(res, []byte("$cmd('$arg')\n"), src, s)
 	}
 
 	fmt.Println(string(res))
-
-	var aslice []byte
-	zslice := []byte{}
-
-	fmt.Println(aslice)
-	fmt.Println(zslice)
 }
