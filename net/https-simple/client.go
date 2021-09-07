@@ -59,10 +59,9 @@ func main() {
 }
 
 /*
+	$ echo -n "kim:1234" | base64
+	am9lOjEyMzQ=
 
-$ echo -n "kim:1234" | base64
-am9lOjEyMzQ=
-
-$ curl --cacert cert.pem -H "Authorization: Basic am9lOjEyMzQ=" https://localhost:4000/secret/
-You get to see the secret
+	$ curl --cacert cert.pem -H "Authorization: Basic am9lOjEyMzQ=" https://localhost:4000/secret/
+	You get to see the secret
 */

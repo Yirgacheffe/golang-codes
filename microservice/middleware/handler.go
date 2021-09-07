@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"runtime/debug"
@@ -74,4 +75,18 @@ func (amw *authenticationMiddleware) Middleware(next http.Handler) http.Handler 
 			http.Error(w, "Forbidden", http.StatusForbidden)
 		}
 	})
+}
+
+func authMiddleware(w http.ResponseWriter, r *http.Request, next http.HandleFunc) {
+
+	token, err := jwt.ParseFromRequest(r, func(token *jwt.Token) (interface{}, error) {
+		return verifyKey, nil
+	})
+
+	if err == nil && token.Valid {
+		next(w, r)
+	} else {
+		w.WriterHeader(http.StatusUnauthorized)
+		fmt.Fprint(w, "Authentication failed.")
+	}
 }

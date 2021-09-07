@@ -1,15 +1,18 @@
 package main
 
 import (
-	"google.golang.org/api/people/v1"
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 
+	"google.golang.org/api/people/v1"
+
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 )
 
 func getClient(config *oauth2.Config) *http.Client {
@@ -18,10 +21,23 @@ func getClient(config *oauth2.Config) *http.Client {
 
 	if err != nil {
 		tok = getTokenFromNet(config)
-		saveToken(tokFile, tok)
+		saveToken(tokenFile, tok)
 	}
 
 	return config.Client(context.Background(), tok)
+}
+
+func tokenFromFile(file string) (*oauth2.Token, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+
+	defer f.Close()
+
+	tok := &oauth2.Token{}
+	err = json.NewDecoder(f).Decode(tok)
+	return tok, err
 }
 
 func getTokenFromNet(config *oauth2.Config) *oauth2.Token {
@@ -41,23 +57,10 @@ func getTokenFromNet(config *oauth2.Config) *oauth2.Token {
 	return tok
 }
 
-func tokenFromFile(file string) (*oauth2.Token, error) {
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, err
-	}
-
-	defer f.Close()
-
-	tok := &oauth2.Token{}
-	err = json.NewDecoder(f).Decode(tok)
-	return tok, err
-}
-
 func saveToken(path string, token *oauth2.Token) {
 	fmt.Printf("Saving credential file to: %s\n", path)
 
-	f, err := os.Openfile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		log.Fatalf("Unable to cache oauth token: %v", err)
 	}
@@ -66,7 +69,7 @@ func saveToken(path string, token *oauth2.Token) {
 }
 
 func main() {
-	
+
 	b, err := ioutil.ReadFile("credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -88,18 +91,18 @@ func main() {
 	if err != nil {
 		log.Fatalf("Unable to retrieve people. %v", err)
 	}
-	
-	if len(r.Connections) > 0 {
-		fmt.Print("List 10 connection name:\n")
-		for _, c := range r.Connections {
-			names := c.Names
-			if len(names) > 0 {
-				name := names[0].DisplayName
-				fmt.Printf("%s\n", name)
-			}
-		}
-	} else {
-		fmt.Println("No connections found.")
+
+	if len(r.Connections) <= 0 {
+		fmt.Println("No connection found!")
+		return
 	}
 
+	fmt.Print("List 10 connection name:\n")
+	for _, c := range r.Connections {
+		names := c.Names
+		if len(names) > 0 {
+			name := names[0].DisplayName
+			fmt.Printf("%s\n", name)
+		}
+	}
 }

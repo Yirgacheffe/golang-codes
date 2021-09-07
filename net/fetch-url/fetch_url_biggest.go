@@ -20,25 +20,20 @@ func main() {
 	results := make(chan HomePagetSize, 4)
 
 	for _, url := range urls {
-
 		go func(url string) {
-
 			res, err := http.Get(url)
 			if err != nil {
 				panic(err)
 			}
 
 			defer res.Body.Close()
-
 			bs, err := ioutil.ReadAll(res.Body)
 			if err != nil {
 				panic(err)
 			}
 
 			results <- HomePagetSize{URL: url, Size: len(bs)}
-
 		}(url)
-
 	}
 
 	var biggest HomePagetSize

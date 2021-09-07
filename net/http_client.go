@@ -11,9 +11,11 @@ func main() {
 }
 
 func doGet() string {
-
 	url := "http://localhost:8081/configs"
-	client := &http.Client{Timeout: time.Second * 3}
+
+	client := &http.Client{
+		Timeout: time.Second * 3,
+	}
 
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -21,15 +23,11 @@ func doGet() string {
 	}
 
 	log.Println("After request create...")
-
-	response, err := client.Do(request)
+	resp, err := client.Do(request)
 	if err != nil {
-		log.Println(err)
-		return "Error"
+		log.Fatal(err)
 	}
 
-	defer response.Body.Close()
-
-	return "No error"
-
+	defer resp.Body.Close()
+	return "No error" // ---------------#-
 }

@@ -8,11 +8,9 @@ import (
 
 var helloIndexHTML = "<DOCTYPE-TYPE html><html><head><title>Hello World</title></head><body>Hello, World!</body></html>"
 
-func helloHTTPHandler(res http.ResponseWriter, r *http.Request) {
-
-	res.Header().Set("Content-type", "text/html")
-	io.WriteString(res, helloIndexHTML)
-
+func helloHTTPHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "text/html")
+	io.WriteString(w, helloIndexHTML)
 }
 
 func main() {

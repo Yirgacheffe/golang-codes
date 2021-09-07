@@ -8,11 +8,16 @@ import (
 	"time"
 )
 
+type SomeClient struct {
+	*http.Client
+}
+
 func main() {
+	c := SomeClient{
+		&http.Client{Timeout: time.Microsecond * 100},
+	}
 
-	client := &http.Client{Timeout: 100 * time.Microsecond}
-	res, err := client.Get("https://jsonplaceholder.typicode.com/users/1")
-
+	res, err := c.Get("https://jsonplaceholder.typicode.com/users/1")
 	if err != nil {
 		// get `url.Error` struct pointer from `err` interface
 		urlErr := err.(*url.Error)
@@ -21,10 +26,8 @@ func main() {
 		if urlErr.Timeout() {
 			fmt.Println("Error occured due to a timeout.")
 		}
-
 		log.Fatal("Error:", err)
-	} else {
-		fmt.Println("Success:", res.StatusCode)
 	}
 
+	fmt.Println("Success:", res.StatusCode)
 }
