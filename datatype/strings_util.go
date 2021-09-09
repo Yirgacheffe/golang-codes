@@ -17,4 +17,11 @@ func main() {
 	fmt.Println(strings.Split("138-0983-3275", "-"))
 	fmt.Println(strings.ToLower("EjsdfTJAJDFAENdkei"))
 	fmt.Println(strings.EqualFold("go", "GO"))
+
+	s := "Hello world!"
+	fmt.Println(s[2:4])
+	fmt.Println(string(s[1]))
+
+	sr := strings.Split(s, " ")
+	fmt.Println(strings.Contains(s, sr[1]))
 }

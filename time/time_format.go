@@ -22,4 +22,11 @@ func main() {
 	loc, _ := time.LoadLocation("Europe/Paris") // ignore error
 	londonTime := t.In(loc)
 	fmt.Println("Paris:", londonTime)
+
+	fmt.Println(t.Format("3:04PM"))                        // 8:54PM
+	fmt.Println(t.Format("Jan-02-06"))                     // February 27, 2020
+	fmt.Println(t.Format("Jan _2 15:04:05.000000"))        // Feb 27 21:07:10.714500
+	fmt.Println(t.Format("3:04:05 PM"))                    // 9:07:10 PM
+	fmt.Println(t.Format("Mon, 02 Jan 2006 15:04:05 MST")) // Thu, 27 Feb 2020 21:07:10 IST
+
 }
