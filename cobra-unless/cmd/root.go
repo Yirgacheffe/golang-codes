@@ -32,6 +32,17 @@ var versionCmd = &cobra.Command{
 	},
 }
 
+func newCommand() *cobra.Command {
+	return &cobra.Command{
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("Foo")
+		},
+		Use:   "foo",
+		Short: "Command foo",
+		Long:  "This is a new Command Foo",
+	}
+}
+
 func init() {
 	// cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is &HOME/unless.yaml)")
@@ -44,6 +55,7 @@ func init() {
 	// rootCmd.MarkFlagRequired("region")
 	rootCmd.AddCommand(versionCmd)
 
+	// rootCmd.SetVersionTemplate("")
 	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
 }
 

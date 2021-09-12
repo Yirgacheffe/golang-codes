@@ -24,4 +24,9 @@ func main() {
 
 	sr := strings.Split(s, " ")
 	fmt.Println(strings.Contains(s, sr[1]))
+
+	re := strings.NewReplacer("C", "C++", "float", "int")
+	ss := "a float in C"
+	res := re.Replace(ss)
+	fmt.Println(res)
 }
