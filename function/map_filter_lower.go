@@ -47,12 +47,10 @@ func main() {
 
 	ws := []Work{
 		{
-			Data:    "Example 1",
-			Version: 1,
+			Data: "Example 1", Version: 1,
 		},
 		{
-			Data:    "Example 2",
-			Version: 2,
+			Data: "Example 2", Version: 2,
 		},
 	}
 

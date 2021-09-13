@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -500,4 +501,9 @@ func main() {
 
 	time.Sleep(10 * time.Second)
 
+	fmt.Fprint(os.Stdout, "Yet", "another", "string\n")
+	fmt.Fprintln(os.Stdout, "A", "string")
+
+	s := "formatted"
+	fmt.Fprintf(os.Stdout, "A %s string\n", s)
 }
