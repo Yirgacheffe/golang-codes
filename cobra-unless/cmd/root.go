@@ -20,27 +20,7 @@ var rootCmd = &cobra.Command{
 	Short: "Unless control interface",
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("cmd goes here...!")
-	},
-}
-
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Long:  `All software has version.`,
-	Short: "Print the version",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("unlessctl v0.9 -- HEAD")
-	},
-}
-
-func newCommand() *cobra.Command {
-	return &cobra.Command{
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Foo")
-		},
-		Use:   "foo",
-		Short: "Command foo",
-		Long:  "This is a new Command Foo",
-	}
+	}, // comment this run func to prevent default running
 }
 
 func init() {
@@ -94,4 +74,11 @@ func Execute() {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+}
+
+func GetRootCmd(args []string) *cobra.Command {
+	cxd := &cobra.Command{Use: "xctl"}
+	cxd.SetArgs(args)
+
+	return cxd
 }
