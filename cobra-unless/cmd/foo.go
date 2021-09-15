@@ -17,7 +17,6 @@ func init() {
 func newFooCommand() *cobra.Command {
 	return &cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
-
 			f, _ := cmd.Flags().GetBool("float")
 			if !f {
 				intFoo(args)
