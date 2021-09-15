@@ -34,6 +34,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&region, "region", "r", "", "AWS region (required)")
 	// rootCmd.MarkFlagRequired("region")
 	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(NewCmdList(nil))
 
 	// rootCmd.SetVersionTemplate("")
 	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
