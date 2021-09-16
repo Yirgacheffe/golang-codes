@@ -23,15 +23,16 @@ func NewCmdList(runF func(*ListOpts) error) *cobra.Command {
 		// Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			fmt.Println(args[0])
-
 			org, _ := cmd.Flags().GetString("org")
 			fmt.Println("org:", org)
-
 			if runF != nil {
 				return runF(opts)
 			} else {
 				return listRun(opts)
 			}
+		},
+		Annotations: map[string]string{
+			"help:environment": `HOST: make the request to...`,
 		},
 	}
 

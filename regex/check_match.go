@@ -23,4 +23,7 @@ func main() {
 	fmt.Println(regexp.Match(`\d\d`, []byte("1 12 23")))
 	fmt.Println(regexp.Match(`\w+`, []byte("1 12 23")))
 
+	isJSON, _ := regexp.MatchString(`[/+]json[;|$]`, "application/json; charset=utf8")
+	fmt.Println(isJSON)
+
 }
