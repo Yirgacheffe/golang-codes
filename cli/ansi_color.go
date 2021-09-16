@@ -18,6 +18,15 @@ const (
 	Black Color = -1
 )
 
+const (
+	BgDefault   = 0
+	BgHighlight = 1
+	BgUnderline = 4
+	BgLighting  = 5
+	BgWhite     = 7
+	BgUnvisible = 8
+)
+
 // ColorText hold a text and it's color
 type ColorText struct {
 	TextColor Color
@@ -54,5 +63,13 @@ func main() {
 	r.Text = "Back to normal color..."
 
 	fmt.Println(r.String())
+
+	r.TextColor = Blue
+	fmt.Println(r.String())
+
+	fmt.Printf("%s%s\n", "\x1b[m", "what color?")
+	fmt.Printf("%s%s\n", "\x1b[1;34m", "this is bright blue")
+
+	fmt.Printf("%d:%d\n", 033, 0x1b)
 
 }
