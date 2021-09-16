@@ -58,13 +58,7 @@ func findWithHashMap(a []int) {
 
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	} else {
-		return b
-	}
-}
+longestUniqueString
 
 func main() {
 	a := []int{15, -2, 2, -8, 1, 7, 10, 23, 3}
