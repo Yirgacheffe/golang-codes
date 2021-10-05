@@ -112,6 +112,25 @@ func size(t *Node) int {
 	return i
 }
 
+// reverse - another solution is using stack
+func reverse(t *Node) *Node {
+	if t == nil {
+		fmt.Println("-> Empty list!")
+		return nil
+	}
+
+	var prev, next *Node
+	curr := t
+
+	for curr != nil {
+		next = curr.Next
+		curr.Next = prev // reconnect last loop node
+		prev = curr      // the last node
+		curr = next
+	}
+	return prev // head_ref of node to outside
+}
+
 func main() {
 
 	fmt.Println(root)
@@ -144,5 +163,7 @@ func main() {
 	} else {
 		fmt.Println("Node does not exists!")
 	}
+
+	traverse(reverse(root))
 
 }
