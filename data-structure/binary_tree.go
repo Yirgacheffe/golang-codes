@@ -57,8 +57,21 @@ func insert(t *Tree, v int) *Tree {
 
 }
 
-func main() {
+func printAtLevel(t *Tree, level int) {
+	if t == nil || level < 0 {
+		return
+	}
 
+	if level == 0 {
+		fmt.Print(t.Value, " ")
+		return
+	}
+
+	printAtLevel(t.Left, level-1)
+	printAtLevel(t.Right, level-1)
+}
+
+func main() {
 	t := create(10)
 	fmt.Println("The value of the root is", t.Value)
 
@@ -70,5 +83,5 @@ func main() {
 	fmt.Println()
 
 	fmt.Println("The value of the root is", t.Value)
-
+	printAtLevel(t, 0)
 }
