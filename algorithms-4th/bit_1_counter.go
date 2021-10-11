@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // solution 1 -> v % 2
 // solution 2 -> v & 0x01
