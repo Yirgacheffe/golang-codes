@@ -19,7 +19,7 @@ func longestUniqueString(s string) int {
 	}
 
 	n := len(s)
-	i := 0
+	i := 0 // left
 	result := 0
 
 	for j := 0; j < n; j++ {
@@ -27,8 +27,9 @@ func longestUniqueString(s string) int {
 		// Update i (starting index of current window)
 		// as maximum of current value of i and last index plus 1
 		i = max(i, lastIdx[s[j]]+1)
-		result = max(result, j-i+1)
 		lastIdx[s[j]] = j
+
+		result = max(result, j-i+1)
 	}
 
 	return result // result of longest
