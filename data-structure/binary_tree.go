@@ -71,6 +71,22 @@ func printAtLevel(t *Tree, level int) {
 	printAtLevel(t.Right, level-1)
 }
 
+func height(t *Tree) int {
+	if t == nil {
+		return 0
+	}
+
+	max := func(a, b int) int {
+		if a > b {
+			return a
+		} else {
+			return b
+		}
+	}
+
+	return max(height(t.Left), height(t.Right)) + 1
+}
+
 func main() {
 	t := create(10)
 	fmt.Println("The value of the root is", t.Value)
@@ -84,4 +100,7 @@ func main() {
 
 	fmt.Println("The value of the root is", t.Value)
 	printAtLevel(t, 0)
+
+	fmt.Println()
+	fmt.Printf("the height is %d\n", height(t))
 }
