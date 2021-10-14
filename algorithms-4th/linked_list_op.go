@@ -157,6 +157,69 @@ func removeDupInSorted(t *Node) *Node {
 	return dummy.Next
 }
 
+func removeDupInSortedII(t *Node) *Node {
+	if t == nil || t.Next == nil {
+		return t
+	}
+
+	dummy := new(Node)
+
+	tail := dummy // new list
+	prev := t
+	curr := t.Next
+
+	for curr != nil {
+		if prev.Value != curr.Value {
+			if prev.Next == curr {
+				tail.Next = prev
+				tail = tail.Next
+			}
+			prev = curr // jump to diff ***NB***
+		}
+		curr = curr.Next // move forward
+	}
+
+	if prev.Next != nil {
+		tail.Next = nil
+	} else {
+		tail.Next = prev
+	}
+
+	return dummy.Next
+}
+
+type TreeNode struct {
+	Left  *TreeNode
+	Value int
+	Right *TreeNode
+}
+
+func buildBSTFromList(head *Node) *TreeNode {
+	if head == nil {
+		return nil
+	}
+	return toBST(head, nil)
+}
+
+func toBST(head, tail *Node) *TreeNode {
+	if head == tail {
+		return nil
+	}
+
+	slow, fast := head, head
+
+	for fast != tail && fast.Next != tail {
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+
+	tNode := &TreeNode{Value: slow.Value}
+	tNode.Left = toBST(head, slow)
+	tNode.Right = toBST(slow.Next, tail)
+
+	return tNode
+}
+
 func main() {
 	fmt.Println("Hello, cycle!")
 }
