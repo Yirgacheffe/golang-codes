@@ -143,17 +143,17 @@ func removeValue(t *Node, target int) *Node {
 
 func removeDupInSorted(t *Node) *Node {
 	dummy := new(Node)
-	cur := dummy
+	tail := dummy
 
 	for t != nil {
-		if cur == dummy || cur.Value != t.Value {
-			cur.Next = t
-			cur = cur.Next
+		if tail == dummy || tail.Value != t.Value {
+			tail.Next = t
+			tail = tail.Next
 		}
 		t = t.Next
 	}
 
-	cur.Next = nil
+	tail.Next = nil
 	return dummy.Next
 }
 
@@ -227,6 +227,7 @@ func reverseKGroup(head *Node, k int) *Node {
 	for head != nil {
 		tail := pree
 
+		// find tail in k group
 		for i := 0; i < k; i++ {
 			tail = tail.Next
 			if tail == nil {
@@ -237,9 +238,11 @@ func reverseKGroup(head *Node, k int) *Node {
 		nx := tail.Next
 		head, tail = partialReverse(head, tail)
 
+		// reconnect partial
 		pree.Next = head
 		tail.Next = nx
 
+		// move to next k group...
 		pree = tail
 		head = tail.Next
 	}
@@ -259,6 +262,33 @@ func partialReverse(head, tail *Node) (*Node, *Node) {
 	}
 
 	return tail, head
+}
+
+func rotationRight(head *Node, k int) *Node {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	dummy := &Node{Next: head}
+	fast := dummy
+	slow := dummy
+
+	var size int = 0
+	for fast.Next != nil {
+		size++
+		fast = fast.Next
+	}
+
+	// if k is bigger than size
+	for j := size - k%size; j > 0; j-- {
+		slow = slow.Next
+	}
+
+	fast.Next = dummy.Next
+	dummy.Next = slow.Next
+	slow.Next = nil
+
+	return dummy.Next // after rotation ...
 }
 
 func main() {
