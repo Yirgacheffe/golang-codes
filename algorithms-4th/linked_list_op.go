@@ -220,6 +220,47 @@ func toBST(head, tail *Node) *TreeNode {
 	return tNode
 }
 
+func reverseKGroup(head *Node, k int) *Node {
+	hair := &Node{Next: head}
+	pree := hair
+
+	for head != nil {
+		tail := pree
+
+		for i := 0; i < k; i++ {
+			tail = tail.Next
+			if tail == nil {
+				return hair.Next
+			}
+		}
+
+		nx := tail.Next
+		head, tail = partialReverse(head, tail)
+
+		pree.Next = head
+		tail.Next = nx
+
+		pree = tail
+		head = tail.Next
+	}
+
+	return hair.Next
+}
+
+func partialReverse(head, tail *Node) (*Node, *Node) {
+	prev := tail.Next
+	p := head
+
+	for prev != tail {
+		next := p.Next
+		p.Next = prev
+		prev = p
+		p = next
+	}
+
+	return tail, head
+}
+
 func main() {
 	fmt.Println("Hello, cycle!")
 }
