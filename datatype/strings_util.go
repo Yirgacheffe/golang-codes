@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -29,4 +30,10 @@ func main() {
 	ss := "a float in C"
 	res := re.Replace(ss)
 	fmt.Println(res)
+
+	// ....
+	sss := "xyzxdyddfyzdydjydyzdd"
+	t := regexp.MustCompile(`[y]`)
+	v := t.Split(sss, -1)
+	fmt.Println(v) // regexp to split a string
 }
