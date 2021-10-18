@@ -8,6 +8,25 @@ import (
 
 type startGoroutineFn func(done <-chan bool, pulseInterval time.Duration) (heartbeat <-chan interface{})
 
+func or(wardDone <-chan bool, done <-chan bool) <-chan bool {
+	heartbeat := make(chan bool)
+
+	go func() {
+		defer close(heartbeat)
+
+		for {
+			select {
+			case <-done:
+				return
+			case <-wardDone:
+				return
+			}
+		}
+	}()
+
+	return heartbeat
+}
+
 func main() {
 
 	newSteward := func(

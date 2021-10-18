@@ -28,7 +28,7 @@ type website struct {
 
 func (w *website) contents() {
 	fmt.Println("Content of Website")
-	for i_ v := range w.posts {
+	for _, v := range w.posts {
 		v.details()
 	}
 }
