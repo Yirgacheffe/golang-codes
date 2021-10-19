@@ -26,7 +26,6 @@ func create(n int) *Tree {
 }
 
 func traverse(t *Tree) {
-
 	if t == nil {
 		return
 	}
@@ -34,15 +33,12 @@ func traverse(t *Tree) {
 	traverse(t.Left)
 	fmt.Print(t.Value, " ")
 	traverse(t.Right)
-
 }
 
 func insert(t *Tree, v int) *Tree {
-
 	if t == nil {
 		return &Tree{nil, v, nil}
 	}
-
 	if v == t.Value {
 		return t
 	}
@@ -54,7 +50,6 @@ func insert(t *Tree, v int) *Tree {
 		t.Right = insert(t.Right, v)
 		return t
 	}
-
 }
 
 func printAtLevel(t *Tree, level int) {
