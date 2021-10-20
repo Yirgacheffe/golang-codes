@@ -251,10 +251,10 @@ func connect(root *TreeLinkNode) *TreeLinkNode {
 	}
 
 	for leftmost := root; leftmost != nil; {
+		node := leftmost
 
-		for node := leftmost; node != nil; {
+		for node != nil {
 			node.Left.Next = node.Left.Right
-
 			if node.Next != nil {
 				node.Right.Next = node.Next.Left
 			}
@@ -265,6 +265,38 @@ func connect(root *TreeLinkNode) *TreeLinkNode {
 	}
 
 	return root
+}
+
+//----------------------------- ------------------------
+func levelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+
+	q := []*TreeNode{root}
+	ret := [][]int{}
+
+	for i := 0; len(q) > 0; i++ {
+		ret = append(ret, []int{})
+		tmp := []*TreeNode{}
+
+		for j := 0; j < len(q); j++ {
+			node := q[j]
+			ret[i] = append(ret[i], node.Value)
+
+			// Next level of nodes into temp queue
+			if node.Left != nil {
+				tmp = append(tmp, node.Left)
+			}
+			if node.Right != nil {
+				tmp = append(tmp, node.Right)
+			}
+		}
+
+		q = tmp
+	}
+
+	return ret
 }
 
 //----------------------------- ------------------------
