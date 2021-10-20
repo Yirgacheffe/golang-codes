@@ -216,6 +216,58 @@ func maxGain(node *TreeNode) int {
 }
 
 //----------------------------- ------------------------
+func isSymmetric(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+
+	var symmCheck func(left, right *TreeNode) bool
+
+	symmCheck = func(left, right *TreeNode) bool {
+		if left == nil && right == nil {
+			return true
+		}
+
+		if left == nil || right == nil {
+			return false
+		}
+
+		return left.Value == right.Value && symmCheck(left.Left, right.Right) && symmCheck(left.Right, right.Left)
+	}
+
+	return symmCheck(root.Left, root.Right)
+}
+
+//----------------------------- ------------------------
+type TreeLinkNode struct {
+	Left  *TreeLinkNode
+	Right *TreeLinkNode
+	Next  *TreeLinkNode
+}
+
+func connect(root *TreeLinkNode) *TreeLinkNode {
+	if root == nil {
+		return root
+	}
+
+	for leftmost := root; leftmost != nil; {
+
+		for node := leftmost; node != nil; {
+			node.Left.Next = node.Left.Right
+
+			if node.Next != nil {
+				node.Right.Next = node.Next.Left
+			}
+			node = node.Next
+		}
+
+		leftmost = leftmost.Left
+	}
+
+	return root
+}
+
+//----------------------------- ------------------------
 func init() {
 	rand.Seed(time.Now().Unix())
 }
@@ -223,12 +275,21 @@ func init() {
 func main() {
 	t := create(10)
 	fmt.Println("The value of the root is", t.Value)
-
 	traverse(t)
-
 	fmt.Println()
+
+	fmt.Println("invert->")
 	x := invert(t) // after invert
 	traverse(x)
+	fmt.Println()
+
+	//
+	ti := create(3)
+	fmt.Println("The value of the root is", ti.Value)
+	traverse(ti)
+	fmt.Println()
+	maxSumPath(ti)
+
 }
 
 //----------------------------- ------------------------
