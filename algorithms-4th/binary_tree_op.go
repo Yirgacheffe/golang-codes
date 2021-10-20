@@ -322,6 +322,9 @@ func main() {
 	fmt.Println()
 	maxSumPath(ti)
 
+	levNum := levelOrder(t)
+	fmt.Println(levNum)
+
 }
 
 //----------------------------- ------------------------
