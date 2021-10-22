@@ -21,6 +21,13 @@ type College struct {
 	database map[int]Student // private
 }
 
+// NewCollege function return a college contains the students
+func NewCollege() *College {
+	return &College{
+		database: make(map[int]Student),
+	}
+}
+
 // Add method add student into the college
 func (c *College) Add(payload Student, reply *Student) error {
 
@@ -47,11 +54,4 @@ func (c *College) Get(payload int, reply *Student) error {
 	*reply = s
 	return nil // Return nil without error
 
-}
-
-// NewCollege function return a college contains the students
-func NewCollege() *College {
-	return &College{
-		database: make(map[int]Student),
-	}
 }
