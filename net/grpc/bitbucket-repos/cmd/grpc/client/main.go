@@ -30,7 +30,7 @@ func main() {
 		}
 
 		if repMsg, err := client.Add(context.Background(), &repositoryModel); err != nil {
-			panic(fmt.Sprintf("Was not able to insert Record: %v", e))
+			panic(fmt.Sprintf("Was not able to insert Record: %v", err))
 		} else {
 			fmt.Println("Record Inserted..")
 			fmt.Println(repMsg)
