@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "hello-tls/pb/team";
+
+package team;
+
+/* 
+ * path should be from top
+ */
+import "proto/person/person.proto";
+
+message Team {
+    repeated person.Person person = 1;
+}

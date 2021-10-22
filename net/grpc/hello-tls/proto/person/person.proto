@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "hello-tls/pb/person";
+
+package person;
+
+message Person {
+    string name   = 1;
+    uint32 age    = 2;
+    Gender gender = 3;
+    enum Gender {
+        MALE    = 0;
+        FEMAILE = 1;
+    }
+}
