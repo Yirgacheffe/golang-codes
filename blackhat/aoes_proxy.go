@@ -9,7 +9,7 @@ import (
 // const site = "proxyserver.io:80"
 
 const (
-	target   = "httpbin.org:80"
+	target   = "golang.org:80"
 	locproxy = "local.proxy.io"
 )
 
