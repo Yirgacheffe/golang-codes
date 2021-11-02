@@ -1,4 +1,4 @@
-package misc
+package main
 
 import (
 	"container/list"
@@ -41,7 +41,7 @@ type SessionStore struct {
 	value        map[interface{}]interface{}
 }
 
-type Provider struct {
+type SessionProvider struct {
 	lock     sync.Mutex
 	sessions map[string]*list.Element
 	list     *list.List
@@ -56,9 +56,7 @@ func NewManager(provideName, cookieName string, maxLifeTime int64) (*Manager, er
 }
 
 var provides = make(map[string]Provider)
-var pder = &Provider{
-	list: list.New(),
-}
+var pder = &SessionProvider{list: list.New()}
 
 var globalSessions *session.Manager
 
@@ -183,7 +181,7 @@ func (st *SessionStore) SessionID() string {
 	return st.sid
 }
 
-func (pder *Provider) SessionInit(sid string) (session.Session, error) {
+func (pder *SessionProvider) SessionInit(sid string) (session.Session, error) {
 	pder.lock.Lock()
 	defer pder.lock.Unlock()
 	v := make(map[interface{}]interface{}, 0)
@@ -193,7 +191,7 @@ func (pder *Provider) SessionInit(sid string) (session.Session, error) {
 	return newsess, nil
 }
 
-func (pder *Provider) SessionRead(sid string) (session.Session, error) {
+func (pder *SessionProvider) SessionRead(sid string) (session.Session, error) {
 	if element, ok := pder.sessions[sid]; ok {
 		return element.Value.(*SessionStore), nil
 	} else {
@@ -203,7 +201,7 @@ func (pder *Provider) SessionRead(sid string) (session.Session, error) {
 	return nil, nil
 }
 
-func (pder *Provider) SessionDestroy(sid string) error {
+func (pder *SessionProvider) SessionDestroy(sid string) error {
 	if element, ok := pder.sessions[sid]; ok {
 		delete(pder.sessions, sid)
 		pder.list.Remove(element)
@@ -212,7 +210,7 @@ func (pder *Provider) SessionDestroy(sid string) error {
 	return nil
 }
 
-func (pder *Provider) SessionGC(maxlifetime int64) {
+func (pder *SessionProvider) SessionGC(maxlifetime int64) {
 	pder.lock.Lock()
 	defer pder.lock.Unlock()
 
@@ -230,7 +228,7 @@ func (pder *Provider) SessionGC(maxlifetime int64) {
 	}
 }
 
-func (pder *Provider) SessionUpdate(sid string) error {
+func (pder *SessionProvider) SessionUpdate(sid string) error {
 	pder.lock.Lock()
 	defer pder.lock.Unlock()
 	if element, ok := pder.sessions[sid]; ok {
