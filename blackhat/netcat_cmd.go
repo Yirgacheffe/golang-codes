@@ -18,6 +18,7 @@ func NewFlusher(w io.Writer) *Flusher {
 	}
 }
 
+// Write with semi-flush
 func (f *Flusher) Write(b []byte) (int, error) {
 	size, err := f.w.Write(b)
 	if err != nil {
