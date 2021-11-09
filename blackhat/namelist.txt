@@ -1,0 +1,6 @@
+ajax
+buy
+open
+sc
+develop
+ftp
