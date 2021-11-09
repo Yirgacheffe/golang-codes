@@ -141,7 +141,7 @@ func main() {
 
 	go func() {
 		for r := range gather {
-			results = append(results, r...)
+			results = append(results, r...) // flatten the slice
 		}
 		var e empty
 		tracker <- e
@@ -153,7 +153,7 @@ func main() {
 	}
 
 	close(gather)
-	<-tracker
+	<-tracker // unblock gather routine
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 8, ' ', ' ', 0)
 	for _, r := range results {
