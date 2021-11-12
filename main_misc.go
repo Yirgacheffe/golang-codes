@@ -312,11 +312,11 @@ func main() {
 	fmt.Println(elementz["H"])
 
 	elementy := map[string]map[string]string{
-		"H": map[string]string{
+		"H": {
 			"name":  "Hydrogen",
 			"state": "gas",
 		},
-		"N": map[string]string{
+		"N": {
 			"name":  "Nitrogen",
 			"state": "gas",
 		},

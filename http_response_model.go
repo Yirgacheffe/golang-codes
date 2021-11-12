@@ -299,9 +299,7 @@ func walletRedirectHandler(w http.ResponseWriter, req *http.Request) {
 	h.ServeHTTP(w, req)
 }
 
-func (a *API) setMiningAddress(ctx context.Context, in struct {
-	MiningAddress string `json:"mining_address"`
-}) Response {
+func (a *API) setMiningAddress(ctx context.Context, in struct { MiningAddress string `json:"mining_address"` }) Response {
 	miningAddress, err := a.wallet.AccountMgr.SetMiningAddress(in.MiningAddress)
 	if err != nil {
 		return NewErrorResponse(err)

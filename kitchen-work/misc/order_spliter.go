@@ -1,4 +1,4 @@
-package main
+package misc
 
 import (
 	"fmt"
@@ -20,9 +20,9 @@ type Courier struct {
 const maxCourierNum = 3
 
 var orders []Order = []Order{
-	Order{1, 1, 8, "courier 1"}, Order{2, 2, 4, "courier 2"}, Order{3, 3, 2, "courier 3"},
-	Order{4, 1, 5, "courier 1"}, Order{5, 2, 6, "courier 2"}, Order{6, 3, 9, "courier 3"},
-	Order{7, 1, 6, "courier 1"}, Order{8, 2, 6, "courier 2"}, Order{9, 3, 6, "courier 3"},
+	{1, 1, 8, "courier 1"}, {2, 2, 4, "courier 2"}, {3, 3, 2, "courier 3"},
+	{4, 1, 5, "courier 1"}, {5, 2, 6, "courier 2"}, {6, 3, 9, "courier 3"},
+	{7, 1, 6, "courier 1"}, {8, 2, 6, "courier 2"}, {9, 3, 6, "courier 3"},
 }
 
 func split(orders []Order) map[int][]Order {
