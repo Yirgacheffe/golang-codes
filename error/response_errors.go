@@ -1,3 +1,10 @@
+package main
+
+import (
+	"context"
+	"net/http"
+)
+
 var (
 	ErrDefault = errors.New("API Error")
 )

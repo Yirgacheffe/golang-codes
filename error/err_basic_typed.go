@@ -47,7 +47,7 @@ func someDemoFunc() error {
 
 func main() {
 	BasicErrors()
-	err := someDemoFunc(）
+	err := someDemoFunc()
 
 	fmt.Println("custom demo error: ", err)
 }
