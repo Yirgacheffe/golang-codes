@@ -1,0 +1,4 @@
+github.com/ibm-messaging/mq-golang/v5 v5.2.5 h1:lHfC7y634fBlB6weX1g3nPGBY+Yazqs3N+cdIKge3/c=
+github.com/ibm-messaging/mq-golang/v5 v5.2.5/go.mod h1:ywCwmYbJOU/E0rl+z4GiNoxVMty68O+LVO39a1VMXrE=
+github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
+github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
