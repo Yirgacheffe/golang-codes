@@ -14,8 +14,8 @@ func ConnectToQ(idx int) (ibmmq.MQQueueManager, error) {
 	logger.Println("Setting up Connection to MQ")
 
 	// Allocate the MQCNO structure needed for the CONNX call
-	cno := ibmmq.NewMQCNO()
 	env := getEndpoint(idx)
+	cno := ibmmq.NewMQCNO()
 
 	if user := env.User; user != "" {
 		logger.Printf("User %s has been specified\n", user)
@@ -34,25 +34,24 @@ func ConnectToQ(idx int) (ibmmq.MQQueueManager, error) {
 
 	logger.Printf("Connect to %s", cd.ConnectionName)
 
-	/*
-		if env.KeyRepository != "" {
-			logger.Println("Runing in TLS Mode")
-			cd.SSLCipherSpec = env.Cipher
-			cd.SSLClientAuth = ibmmq.MQSCA_OPTIONAL
-		}
-	*/
+	// Well, set cipher to CD, if no key set, the connect will be failed
+	if env.Cipher != "" {
+		logger.Println("Client is Running in TLS Mode")
+		cd.SSLCipherSpec = env.Cipher
+		cd.SSLClientAuth = ibmmq.MQSCA_OPTIONAL
+	}
 
 	cno.ClientConn = cd
 
-	/*
-		if env.KeyRepository != "" {
-			logger.Println("Key Repository has been specified")
-			sco := ibmmq.NewMQSCO()
-			sco.KeyRepository = env.KeyRepository
+	// Specify the key repository location if it has been provided
+	// in the environment json setting
+	if env.KeyRepo != "" {
+		logger.Println("Key repository has been specified")
+		sco := ibmmq.NewMQSCO()
+		sco.KeyRepository = env.KeyRepo
 
-			cno.SSLConfig = sco
-		}
-	*/
+		cno.SSLConfig = sco
+	}
 
 	cno.Options = ibmmq.MQCNO_CLIENT_BINDING
 	logger.Printf("Attempting connect to %s", env.QMgr)

@@ -40,6 +40,7 @@ func emitMessage(data *[]byte) {
 	// Get a MQ Manager
 	qMgr, err := utils.ConnectToQ(utils.FULL_STRING)
 	if err != nil {
+		logger.Println(err)
 		logger.Fatalln("Unable connect to Server")
 		os.Exit(1)
 	}

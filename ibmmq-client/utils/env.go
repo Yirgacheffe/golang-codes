@@ -18,7 +18,8 @@ type Env struct {
 	Host     string `json:"HOST"`
 	Port     string `json:"PORT"`
 	Channel  string `json:"CHANNEL"`
-	Topic    string `json:"TOPIC_NAME"`
+	Cipher   string `json:"CIPHER"`
+	KeyRepo  string `json:"KEY_REPO"`
 }
 
 type Endpoints struct {
@@ -66,7 +67,8 @@ func environmentOverrides() {
 		"HOST":         &EnvSettings.Host,
 		"PORT":         &EnvSettings.Port,
 		"CHANNEL":      &EnvSettings.Channel,
-		"TOPIC_NAME":   &EnvSettings.Topic,
+		"CIPHER":       &EnvSettings.Cipher,
+		"KEY_REPO":     &EnvSettings.KeyRepo,
 	}
 
 	for f, v := range overrides {
@@ -93,14 +95,17 @@ func (Env) GetConnection(index int) string {
 }
 
 func (Env) LogSettings() {
-	logger.Println("Environment Settings as following")
+	logger.Println("--------- Environment Settings as following ---------")
 
 	logger.Printf("Username      is (%s)\n", EnvSettings.User)
-	logger.Printf("Host          is (%s)\n", EnvSettings.Host)
-	logger.Printf("Port          is (%s)\n", EnvSettings.Port)
 	logger.Printf("Queue Manager is (%s)\n", EnvSettings.QMgr)
 	logger.Printf("Queue Name    is (%s)\n", EnvSettings.QName)
-	logger.Printf("Channel       is (%s)\n", EnvSettings.Channel)
-	logger.Printf("Topic         is (%s)\n", EnvSettings.Topic)
+
+	logger.Printf("Host          is (%s)\n", EnvSettings.Host)
+	logger.Printf("Port          is (%s)\n", EnvSettings.Port)
 	logger.Printf("Connection    is (%s)\n", EnvSettings.GetConnection(FULL_STRING))
+
+	logger.Printf("Channel       is (%s)\n", EnvSettings.Channel)
+	logger.Printf("Cipher        is (%s)\n", EnvSettings.Cipher)
+	logger.Printf("Key Repo      is (%s)\n", EnvSettings.KeyRepo)
 }
