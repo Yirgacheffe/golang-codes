@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"ibmmq-client/types"
 	"ibmmq-client/utils"
 	"log"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/ibm-messaging/mq-golang/v5/ibmmq"
@@ -145,9 +147,16 @@ func cb(qMgr *ibmmq.MQQueueManager, qObj *ibmmq.MQObject, md *ibmmq.MQMD, gmo *i
 		logger.Println(err)
 		ok = false
 	} else {
-		// Assume the message is a printable string, which it will be
-		// if it's been created by the amqsput program
-		logger.Printf("In callback - Got message of length %d from queue %s: ", buflen, qObj.Name)
-		logger.Println(strings.TrimSpace(string(buffer[:buflen])))
+		// Assume the message is a printable string
+		logger.Printf("Got message of length %d from queue %s: ", buflen, qObj.Name)
+
+		var req types.Request
+		err := json.Unmarshal(buffer, &req)
+		if err != nil {
+			log.Println(err)
+		} else {
+			fmt.Printf("Request entity received: %s, %s", req.ReqId, req.TimeStamp)
+		}
+		// Add message dealing logic here ... DB Operate, File Operate
 	}
 }

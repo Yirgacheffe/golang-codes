@@ -1,12 +1,4 @@
-package main
-
-import (
-	"encoding/json"
-	"fmt"
-	"io"
-	"log"
-	"os"
-)
+package types
 
 // ----------------------------------------------------
 type Player struct {
@@ -64,30 +56,6 @@ type Request struct {
 	Reviewer         string `json:"reviewer"`
 	Drawer           string `json:"drawer"`
 	Remark           string `json:"remark"`
-}
-
-func main() {
-
-	f, err := os.Open("./message/gds_input_ok.json")
-	if err != nil {
-		log.Fatalln(err)
-		os.Exit(1)
-	}
-
-	defer f.Close()
-
-	data, _ := io.ReadAll(f)
-
-	var req Request
-
-	err = json.Unmarshal(data, &req)
-	if err != nil {
-		log.Fatalln(err)
-		os.Exit(1)
-	}
-
-	fmt.Printf("%#v\n", req)
-
 }
 
 // ----------------------------------------------------
