@@ -35,7 +35,7 @@ var (
 
 // ---------------------------------------------------------------
 func init() {
-	jsonFile, err := os.Open("./envs/mq.json")
+	jsonFile, err := os.Open("./configs/mq.json")
 	if err != nil {
 		log.Fatal(err)
 	}

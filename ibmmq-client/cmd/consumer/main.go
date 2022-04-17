@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"ibmmq-client/mq"
 	"ibmmq-client/types"
+	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/ibm-messaging/mq-golang/v5/ibmmq"
@@ -19,6 +21,7 @@ var ok = true
 
 const (
 	exit_err = 1
+	temp_dir = "/Users/aaron/Desktop/archive"
 )
 
 // The main function just expects to be given a return code for Exit()
@@ -156,6 +159,17 @@ func cb(qMgr *ibmmq.MQQueueManager, qObj *ibmmq.MQObject, md *ibmmq.MQMD, gmo *i
 			log.Println(err)
 		} else {
 			fmt.Printf("Entity received: %s, %s\n", req.ReqId, req.TimeStamp)
+
+			// trying to store file into storage
+			name := req.ReqId
+			file := filepath.Join(temp_dir, name+".json")
+
+			err := ioutil.WriteFile(file, buffer, 0644)
+			if err != nil {
+				logger.Println(err)
+			} else {
+				logger.Printf("%d bytes has been written into file %s", buflen, name)
+			}
 		}
 		// Add message dealing logic here ... DB Operate, File Operate
 	}

@@ -28,7 +28,7 @@ var (
 
 // ---------------------------------------------------------------
 func init() {
-	jsonFile, err := os.Open("./envs/db.json")
+	jsonFile, err := os.Open("./configs/db.json")
 	if err != nil {
 		log.Fatal(err)
 	}
