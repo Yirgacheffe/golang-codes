@@ -21,10 +21,8 @@ func main() {
 
 	f, err := os.Open(file)
 	if err != nil {
-		log.Fatalln(err)
-		os.Exit(1)
+		logger.Fatalln(err)
 	}
-
 	defer f.Close()
 
 	logger.Println("== Application is starting ==")
@@ -41,23 +39,17 @@ func emitMessage(data *[]byte) {
 	// Get a MQ Manager
 	qMgr, err := mq.ConnectToQ(mq.FULL_STRING)
 	if err != nil {
-		logger.Println(err)
-		logger.Fatalln("Unable connect to Server")
-		os.Exit(1)
+		logger.Fatalln(err)
 	}
 	defer qMgr.Disc()
 
 	qObj, err := mq.OpenQueue(qMgr, mq.OP_Put)
 	if err != nil {
-		log.Fatalln("Unable to open message queue")
-		os.Exit(1)
+		logger.Fatalln(err)
 	}
 	defer qObj.Close(0)
 
-	logger.Println("Writing message to Queue ...")
-
 	// Message Descriptor (MQMD) and Put Options (MQPMO)
-	// Create those with default values
 	pmd := ibmmq.NewMQMD()
 	pmo := ibmmq.NewMQPMO()
 
@@ -67,14 +59,12 @@ func emitMessage(data *[]byte) {
 	// Use text string as message boday format
 	pmd.Format = ibmmq.MQFMT_STRING
 
-	logger.Printf("Sending message %s", *data)
+	logger.Println("Put Message To:", strings.TrimSpace(qObj.Name))
 	err = qObj.Put(pmd, pmo, *data)
-
 	if err != nil {
-		logger.Println(err)
-	} else {
-		logger.Println("Put Message To:", strings.TrimSpace(qObj.Name))
-		logger.Println("MsgId:", hex.EncodeToString(pmd.MsgId))
+		logger.Fatal(err)
 	}
+
+	logger.Println("Put Message MsgId:", hex.EncodeToString(pmd.MsgId))
 
 }
