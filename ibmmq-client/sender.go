@@ -27,10 +27,11 @@ func main() {
 
 	defer f.Close()
 
-	data, _ := io.ReadAll(f)
-
 	logger.Println("== Application is starting ==")
 	utils.EnvSettings.LogSettings()
+
+	// Read file data, ignore error right now
+	data, _ := io.ReadAll(f)
 	emitMessage(&data)
 	logger.Println("== Application is complete ==")
 }
@@ -44,7 +45,6 @@ func emitMessage(data *[]byte) {
 		logger.Fatalln("Unable connect to Server")
 		os.Exit(1)
 	}
-
 	defer qMgr.Disc()
 
 	qObj, err := utils.OpenQueue(qMgr, utils.OP_Put)
@@ -52,7 +52,6 @@ func emitMessage(data *[]byte) {
 		log.Fatalln("Unable to open message queue")
 		os.Exit(1)
 	}
-
 	defer qObj.Close(0)
 
 	logger.Println("Writing message to Queue ...")
