@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"flag"
-	"ibmmq-client/utils"
+	"ibmmq-client/mq"
 	"io"
 	"log"
 	"os"
@@ -28,7 +28,7 @@ func main() {
 	defer f.Close()
 
 	logger.Println("== Application is starting ==")
-	utils.EnvSettings.LogSettings()
+	mq.MQSettings.LogSettings()
 
 	// Read file data, ignore error right now
 	data, _ := io.ReadAll(f)
@@ -39,7 +39,7 @@ func main() {
 func emitMessage(data *[]byte) {
 
 	// Get a MQ Manager
-	qMgr, err := utils.ConnectToQ(utils.FULL_STRING)
+	qMgr, err := mq.ConnectToQ(mq.FULL_STRING)
 	if err != nil {
 		logger.Println(err)
 		logger.Fatalln("Unable connect to Server")
@@ -47,7 +47,7 @@ func emitMessage(data *[]byte) {
 	}
 	defer qMgr.Disc()
 
-	qObj, err := utils.OpenQueue(qMgr, utils.OP_Put)
+	qObj, err := mq.OpenQueue(qMgr, mq.OP_Put)
 	if err != nil {
 		log.Fatalln("Unable to open message queue")
 		os.Exit(1)

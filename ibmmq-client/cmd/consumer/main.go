@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"ibmmq-client/mq"
 	"ibmmq-client/types"
-	"ibmmq-client/utils"
 	"log"
 	"os"
 	"time"
@@ -29,10 +29,10 @@ func main() {
 // The real main function is here to set a return code.
 func mainWithRc() int {
 
-	utils.EnvSettings.LogSettings()
+	mq.MQSettings.LogSettings()
 
 	// Connect to the queue manager
-	qMgr, err := utils.ConnectToQ(utils.FULL_STRING)
+	qMgr, err := mq.ConnectToQ(mq.FULL_STRING)
 	if err != nil {
 		logger.Fatalln(err)
 		return exit_err
@@ -40,7 +40,7 @@ func mainWithRc() int {
 	defer qMgr.Disc()
 
 	// Open the queue
-	qObj, err := utils.OpenQueue(qMgr, utils.OP_Get)
+	qObj, err := mq.OpenQueue(qMgr, mq.OP_Get)
 	if err != nil {
 		logger.Fatalln(err)
 		return exit_err

@@ -1,4 +1,4 @@
-package utils
+package mq
 
 import (
 	"github.com/ibm-messaging/mq-golang/v5/ibmmq"
@@ -10,11 +10,11 @@ const (
 	OP_Get = "GET"
 )
 
-func ConnectToQ(idx int) (ibmmq.MQQueueManager, error) {
+func ConnectToQ(index int) (ibmmq.MQQueueManager, error) {
 	logger.Println("Setting up Connection to MQ")
 
 	// Allocate the MQCNO structure needed for the CONNX call
-	env := getEndpoint(idx)
+	env := getEndpoint(index)
 	cno := ibmmq.NewMQCNO()
 
 	if user := env.User; user != "" {
@@ -29,7 +29,7 @@ func ConnectToQ(idx int) (ibmmq.MQQueueManager, error) {
 
 	// Fill in required fields in the MQCD channel definition structure
 	cd := ibmmq.NewMQCD()
-	cd.ConnectionName = env.GetConnection(idx)
+	cd.ConnectionName = env.GetConnection(index)
 	cd.ChannelName = env.Channel
 
 	logger.Printf("Connect to %s", cd.ConnectionName)
@@ -68,7 +68,7 @@ func OpenQueue(qMgr ibmmq.MQQueueManager, opType string) (ibmmq.MQObject, error)
 	return openQ(qMgr, opType, FULL_STRING)
 }
 
-func getEndpoint(index int) Env {
+func getEndpoint(index int) MQEnv {
 	if index == FULL_STRING {
 		index = 0
 	}
@@ -77,7 +77,6 @@ func getEndpoint(index int) Env {
 }
 
 func openQ(qMgr ibmmq.MQQueueManager, opType string, idx int) (ibmmq.MQObject, error) {
-
 	// Object Descriptor allows us to set q name
 	mqod := ibmmq.NewMQOD()
 	qEnv := getEndpoint(idx)
@@ -107,5 +106,4 @@ func openQ(qMgr ibmmq.MQQueueManager, opType string, idx int) (ibmmq.MQObject, e
 
 	logger.Printf("Queue [%s] opened successful", qObj.Name)
 	return qObj, nil
-
 }
