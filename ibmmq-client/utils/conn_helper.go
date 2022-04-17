@@ -35,7 +35,7 @@ func ConnectToQ(idx int) (ibmmq.MQQueueManager, error) {
 	logger.Printf("Connect to %s", cd.ConnectionName)
 
 	// Well, set cipher to CD, if no key set, the connect will be failed
-	if env.Cipher != "" {
+	if env.KeyRepo != "" {
 		logger.Println("Client is Running in TLS Mode")
 		cd.SSLCipherSpec = env.Cipher
 		cd.SSLClientAuth = ibmmq.MQSCA_OPTIONAL
