@@ -10,7 +10,7 @@ import (
 	"github.com/ibm-messaging/mq-golang/v5/ibmmq"
 )
 
-var logger = log.New(os.Stdout, "MQ Listener: ", log.LstdFlags)
+var logger = log.New(os.Stdout, "MQ Consumer: ", log.LstdFlags)
 
 var mh ibmmq.MQMessageHandle
 var ok = true
@@ -88,7 +88,7 @@ func mainWithRc() int {
 	defer stopCB(qMgr)
 
 	// Keep the program running until the callback has indicated there are
-	// no more messages. Needed?
+	// no more messages.
 	d, _ := time.ParseDuration("5s")
 	for ok && err == nil {
 		time.Sleep(d)
