@@ -31,14 +31,12 @@ func main() {
 
 // The real main function is here to set a return code.
 func mainWithRc() int {
-
 	mq.MQSettings.LogSettings()
 
 	// Connect to the queue manager
 	qMgr, err := mq.ConnectToQ(mq.FULL_STRING)
 	if err != nil {
 		logger.Fatalln(err)
-		return exit_err
 	}
 	defer qMgr.Disc()
 
@@ -46,7 +44,6 @@ func mainWithRc() int {
 	qObj, err := mq.OpenQueue(qMgr, mq.OP_Get)
 	if err != nil {
 		logger.Fatalln(err)
-		return exit_err
 	}
 	defer qObj.Close(0)
 
@@ -55,7 +52,6 @@ func mainWithRc() int {
 	mh, err = qMgr.CrtMH(cmho)
 	if err != nil {
 		logger.Fatalln(err)
-		return exit_err
 	}
 	defer dltMh(mh)
 
@@ -77,19 +73,17 @@ func mainWithRc() int {
 	err = qObj.CB(ibmmq.MQOP_REGISTER, cbd, gmd, gmo)
 	if err != nil {
 		logger.Fatalln(err)
-		return exit_err
 	}
 	defer deReg(qObj, cbd, gmd, gmo)
 
 	// Enable the callback function
 	// Any messages on the Queue will be sent to the Callback
 	ctlo := ibmmq.NewMQCTLO()
+
 	err = qMgr.Ctl(ibmmq.MQOP_START, ctlo)
 	if err != nil {
 		logger.Fatalln(err)
-		return exit_err
 	}
-
 	defer stopCB(qMgr)
 
 	// Keep the program running until the callback has indicated there are
