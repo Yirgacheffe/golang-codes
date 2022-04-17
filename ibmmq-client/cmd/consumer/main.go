@@ -148,14 +148,14 @@ func cb(qMgr *ibmmq.MQQueueManager, qObj *ibmmq.MQObject, md *ibmmq.MQMD, gmo *i
 		ok = false
 	} else {
 		// Assume the message is a printable string
-		logger.Printf("Got message of length %d from queue %s: ", buflen, qObj.Name)
+		logger.Printf("Got Message: Length %d from Queue %s\n", buflen, qObj.Name)
 
 		var req types.Request
 		err := json.Unmarshal(buffer, &req)
 		if err != nil {
 			log.Println(err)
 		} else {
-			fmt.Printf("Request entity received: %s, %s", req.ReqId, req.TimeStamp)
+			fmt.Printf("Entity received: %s, %s\n", req.ReqId, req.TimeStamp)
 		}
 		// Add message dealing logic here ... DB Operate, File Operate
 	}
