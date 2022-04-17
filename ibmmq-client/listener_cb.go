@@ -15,6 +15,10 @@ var logger = log.New(os.Stdout, "MQ Listener: ", log.LstdFlags)
 var mh ibmmq.MQMessageHandle
 var ok = true
 
+const (
+	exit_err = 1
+)
+
 // The main function just expects to be given a return code for Exit()
 func main() {
 	os.Exit(mainWithRc())
@@ -29,27 +33,26 @@ func mainWithRc() int {
 	qMgr, err := utils.ConnectToQ(utils.FULL_STRING)
 	if err != nil {
 		logger.Fatalln(err)
-		return 1
+		return exit_err
 	}
 	defer qMgr.Disc()
-
-	cmho := ibmmq.NewMQCMHO()
-	mh, err = qMgr.CrtMH(cmho)
-	if err != nil {
-		logger.Fatalln(err)
-		return 1
-	}
-
-	defer dltMh(mh)
 
 	// Open the queue
 	qObj, err := utils.OpenQueue(qMgr, utils.OP_Get)
 	if err != nil {
 		logger.Fatalln(err)
-		return 1
+		return exit_err
 	}
-
 	defer qObj.Close(0)
+
+	// Create message handler object
+	cmho := ibmmq.NewMQCMHO()
+	mh, err = qMgr.CrtMH(cmho)
+	if err != nil {
+		logger.Fatalln(err)
+		return exit_err
+	}
+	defer dltMh(mh)
 
 	// Message Descriptor (MQMD) and Get Options (MQPMO)
 	gmd := ibmmq.NewMQMD()
@@ -57,9 +60,8 @@ func mainWithRc() int {
 
 	gmo.Options = ibmmq.MQGMO_NO_SYNCPOINT
 	gmo.Options |= ibmmq.MQGMO_WAIT
-	// gmo.WaitInterval = 3 * 1000
-
 	gmo.Options |= ibmmq.MQGMO_PROPERTIES_IN_HANDLE
+
 	gmo.MsgHandle = mh
 
 	// The MQCBD structure is used to specify the function to be invoked
@@ -70,29 +72,30 @@ func mainWithRc() int {
 	err = qObj.CB(ibmmq.MQOP_REGISTER, cbd, gmd, gmo)
 	if err != nil {
 		logger.Fatalln(err)
-		return 1
+		return exit_err
 	}
+	defer deReg(qObj, cbd, gmd, gmo)
 
-	defer dereg(qObj, cbd, gmd, gmo)
-
-	// Then we are ready to enable the callback function. Any messages
-	// on the queue will be sent to the callback
+	// Enable the callback function
+	// Any messages on the Queue will be sent to the Callback
 	ctlo := ibmmq.NewMQCTLO()
 	err = qMgr.Ctl(ibmmq.MQOP_START, ctlo)
 	if err != nil {
 		logger.Fatalln(err)
-		os.Exit(1)
+		return exit_err
 	}
 
 	defer stopCB(qMgr)
 
+	// Keep the program running until the callback has indicated there are
+	// no more messages. Needed?
 	d, _ := time.ParseDuration("5s")
 	for ok && err == nil {
 		time.Sleep(d)
 	}
 
+	// Checking MQ return
 	mqRet := 0
-
 	if err != nil {
 		mqRet = int((err.(*ibmmq.MQReturn)).MQCC)
 	}
@@ -113,7 +116,7 @@ func dltMh(mh ibmmq.MQMessageHandle) error {
 
 // Deregister the callback function - have to do this before the message handle can be
 // successfully deleted
-func dereg(qObj ibmmq.MQObject, cbd *ibmmq.MQCBD, gmd *ibmmq.MQMD, gmo *ibmmq.MQGMO) error {
+func deReg(qObj ibmmq.MQObject, cbd *ibmmq.MQCBD, gmd *ibmmq.MQMD, gmo *ibmmq.MQGMO) error {
 	err := qObj.CB(ibmmq.MQOP_DEREGISTER, cbd, gmd, gmo)
 	if err != nil {
 		logger.Println(err)
@@ -134,8 +137,8 @@ func stopCB(qMgr ibmmq.MQQueueManager) {
 	}
 }
 
-// This is the callback function invoked when a message arrives on the queue.
-func cb(hConn *ibmmq.MQQueueManager, hObj *ibmmq.MQObject, md *ibmmq.MQMD, gmo *ibmmq.MQGMO, buffer []byte, cbc *ibmmq.MQCBC, err *ibmmq.MQReturn) {
+// Callback function invoked when a message arrives on the queue
+func cb(qMgr *ibmmq.MQQueueManager, qObj *ibmmq.MQObject, md *ibmmq.MQMD, gmo *ibmmq.MQGMO, buffer []byte, cbc *ibmmq.MQCBC, err *ibmmq.MQReturn) {
 	buflen := len(buffer)
 
 	if err.MQCC != ibmmq.MQCC_OK {
@@ -144,7 +147,7 @@ func cb(hConn *ibmmq.MQQueueManager, hObj *ibmmq.MQObject, md *ibmmq.MQMD, gmo *
 	} else {
 		// Assume the message is a printable string, which it will be
 		// if it's been created by the amqsput program
-		logger.Printf("In callback - Got message of length %d from queue %s: ", buflen, hObj.Name)
+		logger.Printf("In callback - Got message of length %d from queue %s: ", buflen, qObj.Name)
 		logger.Println(strings.TrimSpace(string(buffer[:buflen])))
 	}
 }
