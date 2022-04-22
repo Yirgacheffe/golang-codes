@@ -1,0 +1,71 @@
+{
+    "request_id": "f5e2b40-340b-4bdd-865a-2c838148",
+    "time_stamp": "2022-04-05T03:10:44+00:00",
+    "special_mark": "1",
+    "type": "1",
+    "type_code": "004",
+    "remark": "this is the text remark for fapiao, summarize of items.",
+    "total_net_amount": "9000.00",
+    "total_tax_amount": "1000.00",
+    "number_of_lines": 2,    
+    "total_gross_amount": "10000.00",
+    "dealer_number": "202027",
+    "branch_number": "20",
+
+    "buyer":  {
+        "name": "购买方企业名称", 
+        "number": "9001",
+        "tax_number": "41030598763484",
+        "address_line1": "9 Xingli Road - 兴离路9号", 
+        "address_line2": "Qixia District - 栖霞区", 
+        "address_line3": "",
+        "post_code": "", 
+        "city": "Naning - 南京市",
+        "province": "", 
+        "phone": "025-85337227",
+        "bank_name": "建设银行", 
+        "bank_account": "600984938748334"
+    },
+    "seller": {
+        "name": "销方方企业名称", 
+        "number": "1001",
+        "tax_number": "335876393748",
+        "address_line1": "1 HePing Road - 和平路1号", 
+        "address_line2": "HePing District - 和平区", 
+        "address_line3": "",
+        "post_code": "", 
+        "city": "Tianjin - 天津市",
+        "province": "", 
+        "phone": "022-12340007",
+        "bank_name": "招商银行", 
+        "bank_account": "400900021249334"
+    },
+    "invoice": {
+        "invoice_number": 1234567,
+        "order_number":   7455773,
+        "lines": [
+            {
+                "name": "<Product Grp>, Repace Engine - <HScode>",
+                "specification": "A61000",
+                "unit": "台",
+                "catalog_code": "109051103000000",
+                "quantity": "1",
+                "unit_price": "5000.00",
+                "amount": "5000.00",
+                "tax_rate": "0.10",
+                "tax_amount": "500.00"
+            },
+            {
+                "name": "显示器",
+                "specification": "B7Y804",
+                "unit": "个",
+                "catalog_code": "109051103000014",
+                "quantity": "2",
+                "unit_price": "2500.00",
+                "amount": "5000.00",
+                "tax_rate": "0.10",
+                "tax_amount": "500.00"
+            }
+        ]
+    }
+}
