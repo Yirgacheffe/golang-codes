@@ -16,3 +16,5 @@ You are going to need:
 - Run 'nisemono' to mock vendor api.
 
 - Run 'clean.sh' to remove all executable file.
+
+NOTES: Please feel free to find the useful scripts in folder 'scripts'.
