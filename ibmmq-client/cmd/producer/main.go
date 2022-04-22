@@ -34,18 +34,24 @@ func main() {
 	logger.Println("== Application is complete ==")
 }
 
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+	}
+}
+
 func emitMessage(data *[]byte) {
 
 	// Get a MQ Manager
 	qMgr, err := mq.ConnectToQ(mq.FULL_STRING)
 	if err != nil {
-		logger.Fatalln(err)
+		failOnError(err, "Failed to connect to IBM QManager")
 	}
 	defer qMgr.Disc()
 
 	qObj, err := mq.OpenQueue(qMgr, mq.OP_Put)
 	if err != nil {
-		logger.Fatalln(err)
+		failOnError(err, "Failed to open Q")
 	}
 	defer qObj.Close(0)
 
@@ -62,7 +68,7 @@ func emitMessage(data *[]byte) {
 	logger.Println("Put Message To:", strings.TrimSpace(qObj.Name))
 	err = qObj.Put(pmd, pmo, *data)
 	if err != nil {
-		logger.Fatal(err)
+		failOnError(err, "Fail to PUT message to Q")
 	}
 
 	logger.Println("Put Message MsgId:", hex.EncodeToString(pmd.MsgId))
