@@ -6,6 +6,12 @@ import (
 	"go.uber.org/zap"
 )
 
+var logger *zap.Logger
+
+func init() {
+	logger, _ = zap.NewProduction()
+}
+
 func main() {
 	log.Print("Logging in Go!")
 
@@ -15,8 +21,5 @@ func main() {
 	lg.Info("fetch the url from some web site.", "data-dir", "dir-type")
 	lg.Infof("%d %s", 10, "this is error.")
 
-	var logger *zap.Logger
-	logger, _ = zap.NewProduction()
 	logger.Info("this is from prod logger")
-
 }
