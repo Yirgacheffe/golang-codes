@@ -1,0 +1,11 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  github-action-go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          message: Hello World from github action input
