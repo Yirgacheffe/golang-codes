@@ -54,6 +54,17 @@ func parseArgs(w io.Writer, args []string) (config, error) {
 
 	fs := flag.NewFlagSet("greeter", flag.ContinueOnError)
 	fs.SetOutput(w)
+	fs.Usage = func() {
+		var usageString = `
+		A greeter application which prints the name you entered a specified number of times.
+		
+		Usage of %s: <options> [name]`
+		fmt.Fprintf(w, usageString, fs.Name())
+		fmt.Fprintln(w)
+		fmt.Fprintln(w, "Option: ")
+		fs.PrintDefaults()
+	}
+
 	fs.IntVar(&c.nbrOfTimes, "n", 0, "Number of times of greet")
 
 	err := fs.Parse(args)
