@@ -9,6 +9,8 @@ import (
 	"os"
 )
 
+var errPosArgSpecified = errors.New("positional arguments specified")
+
 type config struct {
 	nbrOfTimes int
 	printUsage bool
@@ -41,7 +43,7 @@ func getName(r io.Reader, w io.Writer) (string, error) {
 
 	name := scanner.Text()
 	if len(name) == 0 {
-		return "", errors.New("no name found, please enter you name")
+		return "", errPosArgSpecified
 	}
 
 	return name, nil
@@ -91,8 +93,9 @@ func greetUser(c config, name string, w io.Writer) {
 func main() {
 	c, err := parseArgs(os.Stderr, os.Args[1:])
 	if err != nil {
-		fmt.Fprintln(os.Stdout, err)
-		printUsage(os.Stdout)
+		if errors.Is(err, errPosArgSpecified) {
+			fmt.Fprintln(os.Stdout, err)
+		}
 		os.Exit(1)
 	}
 
