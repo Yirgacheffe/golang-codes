@@ -6,6 +6,11 @@ func add(a, b int) int {
 	return a + b
 }
 
+//go:noinline
+func noinlineAdd(a, b int) int {
+	return a + b
+}
+
 func main() {
 	fmt.Println(add(3, 4))
 }
