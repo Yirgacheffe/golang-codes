@@ -25,7 +25,7 @@ type Address struct {
 var validate *validator.Validate
 
 func main() {
-	validate.New(validator.WithRequiredStructEnabled())
+	validate = validator.New(validator.WithRequiredStructEnabled())
 
 	validateStruct()
 	validateVariable()
@@ -41,11 +41,11 @@ func validateStruct() {
 	user := &User{
 		FirstName:      "George",
 		LastName:       "Smith",
-		Age:            "30",
+		Age:            30,
 		Gender:         "male",
 		Email:          "george.smith@volvo.com",
 		FavouriteColor: "#000-",
-		Address:        []*Address{address},
+		Addresses:      []*Address{address},
 	}
 
 	err := validate.Struct(user)
